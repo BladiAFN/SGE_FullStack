@@ -1,6 +1,10 @@
-@SGE.Api_HostAddress = http://localhost:5193
+@SGE.Api_HostAddress = https://localhost:7091
 
 GET {{SGE.Api_HostAddress}}/weatherforecast/
 Accept: application/json
+
+###
+
+GET {{SGE.Api_HostAddress}}/api/empleados
 
 ###

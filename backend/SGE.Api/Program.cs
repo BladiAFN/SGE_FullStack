@@ -1,11 +1,11 @@
-using Microsoft.EntityFrameworkCore;
+ï»¿using Microsoft.EntityFrameworkCore;
 using SGE.Api.Data;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // ----------------------------
-// Configuración de servicios
+// Configuraciï¿½n de servicios
 // ----------------------------
 
 // Agregar DbContext con SQL Server
@@ -34,7 +34,7 @@ builder.Services.AddSwaggerGen(c =>
     {
         Version = "v1",
         Title = "SGE API",
-        Description = "API de gestión de empleados"
+        Description = "API de gestion de empleados"
     });
 });
 
@@ -47,7 +47,7 @@ var app = builder.Build();
 // Usar CORS
 app.UseCors("AllowAngularApp");
 
-// Redirección HTTPS
+// Redirecciï¿½n HTTPS
 app.UseHttpsRedirection();
 
 // Swagger solo en desarrollo
@@ -57,7 +57,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "SGE API v1");
-        c.RoutePrefix = string.Empty; // Para abrir Swagger en la raíz del proyecto
+        c.RoutePrefix = string.Empty; // Para abrir Swagger en la raï¿½z del proyecto
     });
 }
 

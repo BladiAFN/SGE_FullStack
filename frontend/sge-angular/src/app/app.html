@@ -1,2 +1,12 @@
-<app-weather></app-weather>
-<router-outlet />
+<h2>Prueba de Comunicacion con la Web API</h2>
+@for (empleado of Empleados; track $index) {
+
+  <div>
+    <div>Nombre: {{empleado.nombre}}</div>
+    <div>Cargo: {{empleado.cargo}}</div>
+    <div>Salario: {{empleado.salario}}</div>
+    <div>Fecha Contratacion: {{empleado.fechaContratacion}}</div>
+  </div>
+  <hr>
+
+}

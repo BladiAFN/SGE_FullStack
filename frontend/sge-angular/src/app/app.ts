@@ -1,13 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Weather } from "./weather/weather";
+import { Weatherforecast } from './weatherforecast';
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Weather],
+  imports: [],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App {
-  protected title = 'sge-angular';
+ Weatherforecast = inject(Weatherforecast);
+
+ Empleados: any[] = [];
+
+ constructor(){
+  this.Weatherforecast.obtenerEmpleado().subscribe(datos =>{
+
+    this.Empleados = datos;
+
+  });
+ }
 }
