@@ -1,26 +1,40 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using SGE.Api.Data;
 using Microsoft.OpenApi.Models;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
 // ----------------------------
-// Servicios
+// Configuración de servicios
 // ----------------------------
 
-// Agregar soporte para OpenAPI/Swagger
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// Agregar DbContext con SQL Server
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Agregar controladores
+builder.Services.AddControllers();
 
 // Habilitar CORS para Angular
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
     {
-        policy.WithOrigins("http://localhost:4200") // URL del frontend Angular
+        policy.WithOrigins("http://localhost:4200")
               .AllowAnyHeader()
               .AllowAnyMethod();
+    });
+});
+
+// Agregar soporte para OpenAPI/Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "SGE API",
+        Description = "API de gestión de empleados"
     });
 });
 
@@ -33,46 +47,21 @@ var app = builder.Build();
 // Usar CORS
 app.UseCors("AllowAngularApp");
 
-// Https redirection
+// Redirección HTTPS
 app.UseHttpsRedirection();
 
 // Swagger solo en desarrollo
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "SGE API v1");
+        c.RoutePrefix = string.Empty; // Para abrir Swagger en la raíz del proyecto
+    });
 }
 
-// ----------------------------
-// Endpoints
-// ----------------------------
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithTags("Weather");
+// Mapear controladores
+app.MapControllers();
 
 app.Run();
-
-// ----------------------------
-// Record de WeatherForecast
-// ----------------------------
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
