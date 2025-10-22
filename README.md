@@ -24,31 +24,6 @@ Actualmente, el proyecto cuenta con una **integración funcional entre el fronte
 
 ---
 
-## 🧱 Estructura del proyecto
-SGE_FullStack/
-│
-├── backend/
-│ └── SGE.Api/
-│ ├── Controllers/
-│ ├── Program.cs
-│ ├── Properties/
-│ └── SGE.Api.csproj
-│
-└── frontend/
-└── sge-angular/
-├── src/app/
-│ ├── weather/
-│ │ ├── weather.component.ts
-│ │ ├── weather.component.html
-│ │ └── weather.component.scss
-│ ├── app.component.ts
-│ ├── app.component.html
-│ └── app.module.ts
-└── environments/
-├── environment.ts
-└── environment.prod.ts
----
-
 ## ⚙️ Configuración del Backend (.NET API)
 
 ### 1. Instalar dependencias
